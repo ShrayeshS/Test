@@ -1,0 +1,10 @@
+---
+ - hosts: all
+   tasks:
+     - name: Get Disk Space of /tmp
+       shell: df -k /tmp | tail -1 | awk '{print $4}'
+       register: free_space
+     - debug: var=free_space.stdout
+     - name: Check Disk Free Space
+       fail: msg='disk space is low'
+       when: free_space.stdout | int < 100000000

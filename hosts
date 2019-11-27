@@ -1,0 +1,12 @@
+gppprt2dbbo1  ansible_ssh_host=10.50.15.138 ansible_ssh_port=22
+gppprt2dbbo2  ansible_ssh_host=10.50.15.139 ansible_ssh_port=22
+gppprt2dbtx1  ansible_ssh_host=10.50.15.132 ansible_ssh_port=22
+gppprt2dbtx2  ansible_ssh_host=10.50.15.133 ansible_ssh_port=22
+
+[prt2dbtx]
+gppprt2dbtx1
+gppprt2dbtx2
+
+[prt2dbbo]
+gppprt2dbbo1
+gppprt2dbbo2

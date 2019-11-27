@@ -1,0 +1,16 @@
+--- 
+ - hosts: all
+   tasks:
+           - name: Test Space
+             command: df -kh
+
+           - name: DB Test 
+             shell: mysql -ugpptestuser -p"{{ db_passwd }}" -e 'show databases;'
+             register: out_put
+             tags: [print_action]
+           - debug: var=out_put.stdout_lines
+
+           - name: DB Backup
+             shell: mysqldump -ugpptestuser -p"{{ db_passwd }}" --single-transaction {{ db_name }} | gzip > /tmp/Backup_date_{{ db_name }}.sql.gz
+             register: back_up
+           - debug: var=back_up.stdout_lines 

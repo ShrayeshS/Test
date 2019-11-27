@@ -1,0 +1,9 @@
+---
+
+  - hosts: "{{ cluster }}{{ db_type}}"
+    roles:
+      - dbtx
+
+  - hosts: "{{ cluster }}{{ db_type }}"
+    roles:
+      - dbbo
