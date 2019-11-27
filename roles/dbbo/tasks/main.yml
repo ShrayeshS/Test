@@ -1,0 +1,19 @@
+---
+
+- name: Get Disk Space of /tmp
+  shell: df -k /tmp | tail -1 | awk '{print $4}'
+  register: free_space
+- debug: var=free_space.stdout
+- name: Check available Free Space
+  fail: msg='disk space is low'
+  when: free_space.stdout | int < 10000
+- name: DB Backup of Database
+  shell: mysqldump -ugpptestuser -p"{{ db_passwd }}" --single-transaction "{{ db_name }}" | gzip > /tmp/Backup_"{{ ansible_date_time.date }}"_"{{ ansible_date_time.time }}"_"{{ db_name }}"_"{{ tab_name }}".sql.gz
+  when: tab_name == 'ALL'
+  register: back_up
+- debug: var=back_up.stdout_lines
+- name: DB Backup of Table
+  shell: mysqldump -ugpptestuser -p"{{ db_passwd }}" --single-transaction "{{ db_name }}" "{{ tab_name }}" | gzip > /tmp/Backup_"{{ ansible_date_time.date }}"_"{{ ansible_date_time.time }}"_"{{ db_name }}"_"{{ tab_name }}".sql.gz
+  when: tab_name != 'ALL'
+  register: back_up
+- debug: var=back_up.stdout_lines
